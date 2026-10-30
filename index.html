@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>나의 신소재공학 진로</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 실리콘 웨이퍼 같은 차분한 회청색 바탕 위에 구리색 포인트. 탄소 구조 뷰어가 페이지의 중심 */
+:root{
+  --bg:#eef1f4; --surface:#ffffff; --fg:#1b2430; --muted:#5d6876; --line:#d3d9e0;
+  --accent:#a8562a; --accent-soft:#f3e3d8; --wafer:#dfe5ec; --stage:#e6ebf0;
+  --display:"Black Han Sans","IBM Plex Sans KR",system-ui,sans-serif;
+  --body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12171d; --surface:#1a2129; --fg:#e6ebf0; --muted:#97a3b0; --line:#2c3642;
+  --accent:#e08a57; --accent-soft:#3a2a20; --wafer:#222b35; --stage:#0f1419; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12171d; --surface:#1a2129; --fg:#e6ebf0; --muted:#97a3b0; --line:#2c3642;
+  --accent:#e08a57; --accent-soft:#3a2a20; --wafer:#222b35; --stage:#0f1419; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:960px;margin:0 auto;padding-block:40px 64px;display:flex;flex-direction:column;gap:64px}
+h1,h2{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;letter-spacing:.01em}
+h1{font-size:clamp(2.2rem,6vw,3.6rem);line-height:1.15}
+h2{font-size:clamp(1.6rem,4vw,2.1rem);line-height:1.25}
+h3{margin:0;font-size:1.1rem}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.lead{color:var(--muted);max-width:62ch}
+section{display:flex;flex-direction:column;gap:20px}
+.edit{background:var(--accent-soft);border-radius:4px;padding:0 4px}
+
+/* hero */
+header.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center}
+.hero-text{display:flex;flex-direction:column;gap:16px;min-width:0}
+nav{display:flex;flex-wrap:wrap;gap:8px}
+nav a{font-size:.9rem;text-decoration:none;color:var(--fg);border:1px solid var(--line);padding:4px 12px;border-radius:999px}
+nav a:hover,nav a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+#lattice{width:100%;max-width:100%;aspect-ratio:1/1;display:block}
+
+/* story */
+.story{display:flex;flex-direction:column;gap:14px;max-width:66ch}
+.story p{font-size:1.02rem}
+.story .hint{font-size:.85rem;color:var(--muted)}
+
+/* interest cards */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card .tag{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.card p{font-size:.95rem}
+
+/* viewer */
+.viewer{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:grid;grid-template-columns:1.15fr 1fr}
+.stage{position:relative;background:var(--stage);min-width:0}
+#mol{width:100%;max-width:100%;aspect-ratio:1/1;display:block;cursor:grab;touch-action:none}
+#mol:active{cursor:grabbing}
+.stage-hint{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:.72rem;color:var(--muted)}
+.stage-btn{position:absolute;right:10px;bottom:8px;font-family:var(--body);font-size:.8rem;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:999px;padding:4px 10px;cursor:pointer}
+.panel{padding:22px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--body);font-size:.9rem;background:var(--wafer);color:var(--fg);border:1px solid transparent;border-radius:999px;padding:6px 12px;cursor:pointer}
+.chip:hover{border-color:var(--line)}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.chip:focus-visible,.stage-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.panel h3{font-family:var(--display);font-weight:400;font-size:1.6rem}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:.92rem}
+.facts dt{color:var(--muted);font-size:.85rem}
+.facts dd{margin:0;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.facts dd.txt{font-family:var(--body)}
+.desc{font-size:.95rem}
+.fun{font-size:.9rem;color:var(--muted);border-left:3px solid var(--accent);padding-left:12px}
+
+/* compare table */
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:.92rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+th{font-size:.8rem;color:var(--muted);font-weight:500}
+tr:last-child td{border-bottom:none}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+tr.on td{background:var(--accent-soft)}
+
+footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);padding-top:20px}
+
+@media (max-width:760px){
+  header.hero{grid-template-columns:1fr}
+  #lattice{max-width:280px;margin:0 auto}
+  .cards{grid-template-columns:1fr}
+  .viewer{grid-template-columns:1fr}
+  .panel{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="hero-text">
+    <span class="eyebrow">Materials Science &amp; Engineering</span>
+    <h1>원자 배열을 바꾸면<br>세상이 바뀐다</h1>
+    <p class="lead">안녕하세요, 신소재공학과를 꿈꾸는 효명고 2학년 정지훈입니다. 같은 탄소라도 배열에 따라 흑연이 되고 다이아몬드가 되듯, 물질의 구조를 설계해서 새로운 성질을 만들어 내는 일을 하고 싶습니다.</p>
+    <nav aria-label="페이지 목차">
+      <a href="#story">관심을 갖게 된 계기</a>
+      <a href="#interest">관심 분야</a>
+      <a href="#viewer">탄소 구조 뷰어</a>
+    </nav>
+  </div>
+  <canvas id="lattice" width="560" height="560" aria-label="그래핀 육각형 격자 그림"></canvas>
+</header>
+
+<section id="story">
+  <span class="eyebrow">계기</span>
+  <h2>왜 신소재공학인가</h2>
+  <div class="story">
+    <p><span class="edit">중학교 과학 시간에 연필심의 흑연과 반지의 다이아몬드가 똑같이 탄소로만 이루어져 있다는 사실을 배웠습니다. 성분이 같은데 하나는 부드럽고 검고, 하나는 가장 단단하고 투명하다는 점이 이상하게 느껴졌습니다.</span></p>
+    <p><span class="edit">이유를 찾아보니 원자가 결합하는 방식과 배열이 다르기 때문이었습니다. 그때부터 물질의 성질은 정해진 것이 아니라 구조를 바꿔 설계할 수 있다는 점에 끌렸고, 그래핀과 이차전지, 반도체 소재에 관한 보고서를 쓰며 관심을 넓혀 왔습니다.</span></p>
+    <p class="hint">주황색 문장은 예시입니다. 본인의 실제 경험으로 바꿔 주세요.</p>
+  </div>
+</section>
+
+<section id="interest">
+  <span class="eyebrow">관심 분야</span>
+  <h2>제가 탐구해 온 세 가지 소재</h2>
+  <div class="cards">
+    <article class="card">
+      <span class="tag">Li-ion · 양극재</span>
+      <h3>이차전지</h3>
+      <p>리튬 이온이 양극과 음극 사이를 오가며 충전과 방전이 일어납니다. 음극에 쓰이는 흑연도 탄소 동소체 중 하나입니다.</p>
+    </article>
+    <article class="card">
+      <span class="tag">sp² 탄소 · 2D 소재</span>
+      <h3>그래핀</h3>
+      <p>탄소 원자 한 층이 벌집 모양으로 연결된 소재입니다. 두께는 원자 하나지만 강도와 전기 전도도가 매우 높습니다.</p>
+    </article>
+    <article class="card">
+      <span class="tag">밴드갭 · 도핑</span>
+      <h3>반도체</h3>
+      <p>전자가 넘어야 하는 에너지 간격인 밴드갭이 소재의 성질을 결정합니다. 탄소나노튜브는 감는 방향에 따라 반도체가 되기도 합니다.</p>
+    </article>
+  </div>
+</section>
+
+<section id="viewer">
+  <span class="eyebrow">체험 프로그램</span>
+  <h2>같은 탄소, 다른 구조</h2>
+  <p class="lead">다섯 가지 탄소 동소체를 직접 돌려 보세요. 모두 탄소 원자만으로 이루어져 있지만, 결합 방식과 배열이 달라서 성질이 완전히 달라집니다.</p>
+
+  <div class="viewer">
+    <div class="stage">
+      <canvas id="mol" width="640" height="640" aria-label="탄소 동소체 3D 구조"></canvas>
+      <span class="stage-hint">드래그해서 돌려보기</span>
+      <button type="button" class="stage-btn" id="spin" aria-pressed="true">자동 회전 끄기</button>
+    </div>
+    <div class="panel">
+      <div class="tabs" id="tabs" role="group" aria-label="탄소 동소체 선택"></div>
+      <h3 id="v-name">그래핀</h3>
+      <dl class="facts">
+        <dt>결합</dt><dd id="v-bond"></dd>
+        <dt>C–C 거리</dt><dd id="v-len"></dd>
+        <dt>전기</dt><dd class="txt" id="v-elec"></dd>
+        <dt>발견</dt><dd class="txt" id="v-year"></dd>
+      </dl>
+      <p class="desc" id="v-desc"></p>
+      <p class="fun" id="v-fun"></p>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>동소체</th><th>차원</th><th>결합</th><th>단단함</th><th>전기 전도</th><th>쓰이는 곳</th></tr></thead>
+      <tbody id="compare"></tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  만든 사람: 정지훈 · 동아리 진로 소개 활동 · 구조 그림은 결합 길이를 같은 비율로 단순화한 모형입니다.
+</footer>
+</div>
+
+<script>
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ---------- 히어로 그래핀 격자 ----------
+(function(){
+  const c=document.getElementById('lattice'),x=c.getContext('2d');
+  function draw(t){
+    const W=c.width,H=c.height;x.clearRect(0,0,W,H);
+    const a=34,h=a*Math.sqrt(3)/2,fg=css('--muted'),ac=css('--accent');
+    x.save();x.translate(W/2,H/2);x.rotate(t*0.00004);
+    x.lineWidth=2;x.strokeStyle=fg;const pts=[];
+    for(let i=-8;i<=8;i++)for(let j=-8;j<=8;j++){
+      const cx=i*1.5*a,cy=j*2*h+(i%2?h:0);
+      if(Math.hypot(cx,cy)>W*0.46)continue;
+      x.beginPath();
+      for(let k=0;k<6;k++){const an=Math.PI/3*k,px=cx+a*Math.cos(an),py=cy+a*Math.sin(an);k?x.lineTo(px,py):x.moveTo(px,py);pts.push([px,py])}
+      x.closePath();x.stroke();
+    }
+    pts.forEach(([px,py])=>{if(Math.hypot(px,py)>W*0.46)return;x.beginPath();x.arc(px,py,4.5,0,7);x.fillStyle=Math.hypot(px,py)<a*1.1?ac:fg;x.fill()});
+    x.restore();
+    if(!reduceMotion)requestAnimationFrame(draw);
+  }
+  draw(0);
+})();
+
+// ---------- 구조 생성 (C–C 결합 길이 = 1) ----------
+const S3=Math.sqrt(3);
+function honeycomb(n,keep){ // 벌집 격자 점들
+  const p=[];
+  for(let i=-n;i<=n;i++)for(let j=-n;j<=n;j++){
+    const ox=i*S3+j*S3/2, oy=j*1.5;
+    [[ox,oy],[ox,oy+1]].forEach(([x,y])=>{if(keep(x,y))p.push([x,y])});
+  }
+  return p;
+}
+function graphene(){
+  return honeycomb(9,(x,y)=>Math.hypot(x,y)<6.2).map(([x,y])=>[x,y,0]);
+}
+function graphite(){
+  const out=[],d=2.36; // 층간 거리 0.335nm / 0.142nm
+  [-1,0,1].forEach(L=>{
+    const sy=(L%2!==0)?1:0; // AB 적층: 한 층씩 어긋남
+    honeycomb(9,(x,y)=>Math.hypot(x,y-sy)<4.6).forEach(([x,y])=>out.push([x,y-sy,L*d]));
+  });
+  return out;
+}
+function diamond(){
+  const a=4/S3,out=[],fcc=[[0,0,0],[0,.5,.5],[.5,0,.5],[.5,.5,0]];
+  for(let i=-2;i<=2;i++)for(let j=-2;j<=2;j++)for(let k=-2;k<=2;k++)
+    fcc.forEach(f=>[[0,0,0],[.25,.25,.25]].forEach(b=>{
+      const x=(i+f[0]+b[0])*a,y=(j+f[1]+b[1])*a,z=(k+f[2]+b[2])*a;
+      if(Math.hypot(x,y,z)<3.6)out.push([x,y,z]);
+    }));
+  return out;
+}
+function nanotube(){
+  const n=10,C=n*S3,R=C/(2*Math.PI),out=[];
+  for(let i=0;i<n;i++)for(let j=-7;j<=7;j++){
+    [[i*S3+j*S3/2,j*1.5],[i*S3+j*S3/2,j*1.5+1]].forEach(([x,y])=>{
+      const t=((x%C)+C)%C/C*2*Math.PI;
+      out.push([R*Math.cos(t),y,R*Math.sin(t)]);
+    });
+  }
+  return out;
+}
+function fullerene(){
+  const ph=(1+Math.sqrt(5))/2,base=[[0,1,3*ph],[1,2+ph,2*ph],[ph,2,2*ph+1]],out=[];
+  const perms=v=>[[v[0],v[1],v[2]],[v[1],v[2],v[0]],[v[2],v[0],v[1]]];
+  base.forEach(b=>perms(b).forEach(v=>{
+    for(let s=0;s<8;s++){
+      const p=v.map((c,k)=>c*((s>>k)&1?-1:1));
+      if(!out.some(q=>Math.hypot(q[0]-p[0],q[1]-p[1],q[2]-p[2])<1e-6))out.push(p);
+    }
+  }));
+  return out.map(p=>p.map(c=>c*0.5*1.15)); // 모서리 2 → 1, 보기 좋게 약간 확대
+}
+function bonds(pts,max){
+  const b=[];
+  for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+    const d=Math.hypot(pts[i][0]-pts[j][0],pts[i][1]-pts[j][1],pts[i][2]-pts[j][2]);
+    if(d<max&&d>0.5)b.push([i,j]);
+  }
+  return b;
+}
+
+const ALLO=[
+  {key:'graphene',name:'그래핀',make:graphene,bmax:1.1,
+   bond:'sp² · 원자 1개당 결합 3개',len:'0.142 nm',elec:'매우 잘 통함 (밴드갭 0)',year:'2004년 · 2010 노벨 물리학상',
+   desc:'탄소 원자 한 층이 벌집 모양으로 펼쳐진 2차원 소재입니다. 남는 전자 하나가 판 전체를 자유롭게 움직여 전기가 매우 잘 통합니다.',
+   fun:'스카치테이프로 흑연을 한 겹씩 떼어 내는 방법으로 처음 분리되었습니다.',
+   dim:'2D',hard:'면 방향 강도 최고 수준',use:'투명 전극, 배터리 도전재, 방열 소재'},
+  {key:'graphite',name:'흑연',make:graphite,bmax:1.1,
+   bond:'sp² · 층 사이는 약한 반데르발스 힘',len:'0.142 nm (층간 0.335 nm)',elec:'층 방향으로 잘 통함',year:'고대부터 사용',
+   desc:'그래핀이 여러 층 쌓인 구조입니다. 층 안은 강하게 결합했지만 층 사이는 약하게 붙어 있어서 잘 미끄러지고 쉽게 벗겨집니다.',
+   fun:'층 사이 틈에 리튬 이온이 들어갔다 나왔다 해서 리튬이온전지의 음극 소재로 쓰입니다.',
+   dim:'3D (층상)',hard:'무름 (모스 1~2)',use:'연필심, 이차전지 음극, 윤활제'},
+  {key:'diamond',name:'다이아몬드',make:diamond,bmax:1.1,
+   bond:'sp³ · 원자 1개당 결합 4개',len:'0.154 nm',elec:'통하지 않음 (밴드갭 약 5.5 eV)',year:'고대부터 사용',
+   desc:'모든 탄소가 네 방향으로 사면체 결합을 이루어 3차원 그물 구조를 만듭니다. 자유롭게 움직이는 전자가 없어 부도체입니다.',
+   fun:'전기는 안 통하지만 열은 구리보다 몇 배 잘 전달해서 반도체 방열 소재로 연구됩니다.',
+   dim:'3D',hard:'가장 단단함 (모스 10)',use:'절삭 공구, 보석, 방열 기판'},
+  {key:'cnt',name:'탄소나노튜브',make:nanotube,bmax:1.1,
+   bond:'sp² · 그래핀을 원통으로 만 구조',len:'0.142 nm',elec:'감는 방향에 따라 금속 또는 반도체',year:'1991년 (이지마 스미오)',
+   desc:'그래핀 한 장을 지름 몇 nm의 원통으로 말아 놓은 구조입니다. 가볍고 매우 강하며, 감는 각도에 따라 전기적 성질이 달라집니다.',
+   fun:'이 화면의 튜브는 지그재그 방향으로 감은 (10,0) 나노튜브로, 반도체 성질을 띱니다.',
+   dim:'1D',hard:'인장 강도 매우 높음',use:'배터리 도전재, 복합 소재, 차세대 트랜지스터'},
+  {key:'c60',name:'풀러렌 C₆₀',make:fullerene,bmax:1.25,
+   bond:'sp² · 오각형 12개 + 육각형 20개',len:'약 0.14 nm',elec:'반도체 성질',year:'1985년 · 1996 노벨 화학상',
+   desc:'탄소 60개가 축구공 모양으로 닫힌 0차원 분자입니다. 오각형이 들어가야 평평한 판이 둥글게 휘어 닫힐 수 있습니다.',
+   fun:'건축가 버크민스터 풀러의 돔 건축과 닮아서 버키볼이라는 별명이 붙었습니다.',
+   dim:'0D',hard:'분자 결정은 무른 편',use:'유기 태양전지, 의약 연구'},
+];
+ALLO.forEach(a=>{a.pts=a.make();a.bonds=bonds(a.pts,a.bmax);
+  const c=[0,1,2].map(k=>a.pts.reduce((s,p)=>s+p[k],0)/a.pts.length);
+  a.pts=a.pts.map(p=>p.map((v,k)=>v-c[k]));
+  a.r=Math.max(...a.pts.map(p=>Math.hypot(...p)));
+});
+
+// ---------- 3D 렌더링 ----------
+const cv=document.getElementById('mol'),g=cv.getContext('2d');
+let cur=0,rx=-0.5,ry=0.4,spin=!reduceMotion,drag=null;
+function render(){
+  const a=ALLO[cur],W=cv.width,H=cv.height,sc=W*0.42/a.r;
+  const cx=Math.cos(rx),sx=Math.sin(rx),cy=Math.cos(ry),sy=Math.sin(ry);
+  const P=a.pts.map(([x,y,z])=>{
+    const x1=x*cy+z*sy,z1=-x*sy+z*cy;
+    const y2=y*cx-z1*sx,z2=y*sx+z1*cx;
+    const f=6/(6+z2/a.r*1.2);
+    return [W/2+x1*sc*f,H/2+y2*sc*f,z2,f];
+  });
+  g.clearRect(0,0,W,H);
+  const fg=css('--fg'),ac=css('--accent'),mu=css('--muted');
+  const items=[];
+  a.bonds.forEach(([i,j])=>items.push({z:(P[i][2]+P[j][2])/2,t:0,i,j}));
+  P.forEach((p,i)=>items.push({z:p[2]+0.01,t:1,i}));
+  items.sort((m,n)=>n.z-m.z);
+  const zr=a.r||1;
+  items.forEach(it=>{
+    const depth=(1-(it.z/zr))/2; // 0 멀다 → 1 가깝다
+    g.globalAlpha=0.25+0.75*Math.max(0,Math.min(1,depth));
+    if(it.t===0){
+      const p=P[it.i],q=P[it.j];
+      g.strokeStyle=mu;g.lineWidth=3*p[3];g.beginPath();g.moveTo(p[0],p[1]);g.lineTo(q[0],q[1]);g.stroke();
+    }else{
+      const p=P[it.i],rad=Math.max(3,sc*0.17*p[3]);
+      g.fillStyle=depth>0.75?ac:fg;g.beginPath();g.arc(p[0],p[1],rad,0,7);g.fill();
+    }
+  });
+  g.globalAlpha=1;
+}
+function loop(){if(spin&&!drag)ry+=0.006;render();requestAnimationFrame(loop)}
+cv.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY};cv.setPointerCapture(e.pointerId)});
+cv.addEventListener('pointermove',e=>{if(!drag)return;ry+=(e.clientX-drag.x)*0.01;rx+=(e.clientY-drag.y)*0.01;drag={x:e.clientX,y:e.clientY}});
+['pointerup','pointercancel'].forEach(t=>cv.addEventListener(t,()=>drag=null));
+const spinBtn=document.getElementById('spin');
+function syncSpin(){spinBtn.setAttribute('aria-pressed',spin);spinBtn.textContent=spin?'자동 회전 끄기':'자동 회전 켜기'}
+spinBtn.addEventListener('click',()=>{spin=!spin;syncSpin()});
+syncSpin();
+
+// ---------- 패널 ----------
+const $=id=>document.getElementById(id),tabs=$('tabs'),tbody=$('compare');
+ALLO.forEach((a,i)=>{
+  const b=document.createElement('button');b.type='button';b.className='chip';b.id='tab-'+a.key;b.textContent=a.name;
+  b.addEventListener('click',()=>select(i));tabs.appendChild(b);
+  const tr=document.createElement('tr');tr.id='row-'+a.key;
+  tr.innerHTML=`<td>${a.name}</td><td class="num">${a.dim}</td><td class="num">${a.bond.startsWith('sp³')?'sp³':'sp²'}</td><td>${a.hard}</td><td>${a.elec}</td><td>${a.use}</td>`;
+  tbody.appendChild(tr);
+});
+function select(i){
+  cur=i;const a=ALLO[i];
+  $('v-name').textContent=a.name;$('v-bond').textContent=a.bond;$('v-len').textContent=a.len;
+  $('v-elec').textContent=a.elec;$('v-year').textContent=a.year;$('v-desc').textContent=a.desc;$('v-fun').textContent=a.fun;
+  tabs.querySelectorAll('.chip').forEach((b,k)=>b.setAttribute('aria-pressed',k===i));
+  tbody.querySelectorAll('tr').forEach((r,k)=>r.classList.toggle('on',k===i));
+  if(i===1)rx=-1.1;
+}
+select(0);
+loop();
+</script>
+</body>
+</html>
